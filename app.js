@@ -95,98 +95,6 @@ function Box(x,y,color,size,vel) {
 
 } // end box
 
-function Game(updateDur) {
-  this.timeGap = 0;
-  this.lastUpdate = 0;
-  this.updateDuration = updateDur; // milliseconds duration between update()
-  this.paused = false;
-  this.bg = new Image();
-  this.boxy = undefined;
-  this.pausedTxt = undefined;
-  this.mode = 'init';
-
-  this.init = function() {
-    this.bg.src = 'bg1.png';
-    this.boxy = new Box(20,20,myColors.red,20,1);
-    this.lastUpdate = performance.now();
-  };
-
-  this.pauseIt = function() {
-    myGame.paused = true;
-    // this.pausedTxt.show = true;
-  };
-  this.unpauseIt = function() {
-    myGame.paused = false;
-    // this.pausedTxt.show = false;
-    // this prevents pac from updating many times after UNpausing
-    this.lastUpdate = performance.now();
-    this.timeGap = 0;
-  };
-
-  this.drawBG = function() { // display background over canvas
-    ctx.imageSmoothingEnabled = false;  // turns off AntiAliasing
-    ctx.drawImage(this.bg,0,0,CANVAS.width,CANVAS.height);
-  };
-
-  this.draw = function() {  // draw everything!
-    this.boxy.draw();
-  }; // end draw
-
-  this.update = function() {
-      if (this.paused === false) { // performance based update: myGame.update() runs every myGame.updateDuration milliseconds
-            this.timeGap = performance.now() - this.lastUpdate;
-
-            if ( this.timeGap >= this.updateDuration ) { // this update is restricted to updateDuration
-              let timesToUpdate = this.timeGap / this.updateDuration;
-              for (let i=1; i < timesToUpdate; i++) { // update children objects
-                // if (timesToUpdate > 2) {
-                //   console.log('timesToUpdate = ', timesToUpdate);
-                // }
-                // general update area
-                this.boxy.update();
-              }
-              this.lastUpdate = performance.now();
-            } // end if
-
-            // if (this.mode === "draw") { // run this every update cycle regardless of timing
-            //   // general draw area
-            // } else {
-            //   // mode is none
-            // }
-
-      } else if (this.paused === true) {
-        // PAUSED! do nothin
-      } else {
-        console.log('game pause issue');
-      }
-
-  }; // end update
-
-} // end myGame
-
-
-//////////////////////////////////////////////////////////////////////////////////
-// HELPERS
-//////////////////////////////////////////////////////////////////////////////////
-function clearCanvas() {
-  ctx.clearRect(-1, -1, canvas.width+1, canvas.height+1); // offset by 1 px because the whole canvas is offset initially (for better pixel accuracy)
-}
-
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
-}
-
-function generalLoopReset() {
-  if (State.myReq !== undefined) {  // reset game loop if already started
-    cancelAnimationFrame(State.myReq);
-  }
-  softReset();
-  myGame = new Game(State.simSpeed); // ms per update()
-  myGame.init();
-  State.myReq = requestAnimationFrame(gameLoop);
-}
 
 //////////////////////////////////////////////////////////////////////////////////
 // KEYBOARD INPUT
@@ -219,16 +127,38 @@ function keyDown(event) {
             State.lastKey = 'down';
           }
           break;
+        case 65: // A key
+          if (myGame.paused === false) {
+              State.lastKey = 'left';
+          }
+          break;
+        case 68: // D key
+          if (myGame.paused === false) {
+            State.lastKey = 'right';
+          }
+          break;
+        case 87: // W key
+          if (myGame.paused === false) {
+            State.lastKey = 'up';
+          }
+          break;
+        case 83: // S key
+          if (myGame.paused === false) {
+            State.lastKey = 'down';
+          }
+          break;
         case 32: // spacebar
           State.lastKey = 'spacebar';
-          if (myGame.paused === true) {
-            myGame.unpauseIt();
-          } else if (myGame.paused === false) {
-            myGame.pauseIt();
-          } else {
-            //nothin
+          if (State.gameStarted === true) {
+            if (myGame.paused === true) {
+              myGame.unpauseIt();
+            } else if (myGame.paused === false) {
+              myGame.pauseIt();
+            } else {
+              //nothin
+            }
+            console.log('Game pause state = ', myGame.paused);
           }
-          console.log('Game pause state = ', myGame.paused);
           break;
         default: // Everything else
           State.lastKey = code;
@@ -237,6 +167,7 @@ function keyDown(event) {
     $("#lastkey-name").text("'"+event.code+"'");
     $("#lastkey-code").text(event.keyCode);
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////
 // MOUSE INPUT
@@ -316,15 +247,15 @@ $(document).ready(function() {
   State.myReq = requestAnimationFrame(gameLoop);
   State.loopRunning = true;
   State.gameStarted = false;
-  myGame.mode = 'draw';
+  myGame.mode = 'init';
 
   $('#start-btn').click(function() {
     console.log("start button clicked");
-    if (myGame.mode === 'draw') {
-      myGame.mode = 'sim';
-      console.log('mode now sim');
+    if (myGame.mode === 'init') {
+      myGame.mode = 'play';
+      console.log('mode now play');
       State.gameStarted = true;
-      $('#mode-current-status')[0].innerText = 'simulate';
+      $('#mode-current-status')[0].innerText = 'play';
       let v = $('#speed-slider').val();
       $('#speed-input').prop("value", v);
       myGame.updateDuration = (1000/v);
@@ -339,9 +270,9 @@ $(document).ready(function() {
     generalLoopReset();
     State.loopRunning = true;
     State.gameStarted = false;
-    myGame.mode = 'draw';
+    myGame.mode = 'init';
     $('#pause-btn')[0].innerText = 'PAUSE';
-    $('#mode-current-status')[0].innerText = 'draw';
+    $('#mode-current-status')[0].innerText = 'init';
   });
 
   $('#pause-btn').click(function() {
@@ -364,7 +295,7 @@ $(document).ready(function() {
   $('#speed-input').on('change', function(e) {
     let v = this.value;
     $('#speed-slider').prop("value", v);
-    if (myGame.mode === 'sim') {
+    if (myGame.mode === 'play') {
       myGame.updateDuration = (1000/v);
     }
   });
@@ -373,7 +304,7 @@ $(document).ready(function() {
     if (leftMouseDown === true) {
       let v = this.value;
       $('#speed-input').prop("value", v);
-      if (myGame.mode === 'sim') {
+      if (myGame.mode === 'play') {
         myGame.updateDuration = (1000/v);
       }
     }
