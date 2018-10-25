@@ -6,6 +6,7 @@ function Game(updateDur) {
   this.lastUpdate = 0;
   this.updateDuration = updateDur; // milliseconds duration between update()
   this.paused = false;
+  this.curKey = undefined;
   this.bg = new Image();
   this.boxy = undefined;
   this.pausedTxt = undefined;
@@ -54,6 +55,7 @@ function Game(updateDur) {
                 // }
                 // general update area
                 this.boxy.update();
+                this.myWolf.update();
               }
               this.lastUpdate = performance.now();
             } // end if

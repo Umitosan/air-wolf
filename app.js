@@ -19,6 +19,7 @@ var State = {
   playTime: 0,
   frameCounter: 0,
   lastKey: 'none',
+  keyDown: false,
   mouseX: 0,
   mouseY: 0,
   mouseLeftDown: false,
@@ -38,6 +39,7 @@ function softReset() {
     playTime: 0,
     frameCounter: 0,
     lastKey: 'none',
+    keyDown: false,
     mouseX: 0,
     mouseY: 0,
     mouseLeftDown: false,
@@ -101,54 +103,44 @@ function Box(x,y,color,size,vel) {
 //////////////////////////////////////////////////////////////////////////////////
 function keyDown(event) {
     event.preventDefault(); // prevents page from scrolling within window frame
-    myGame.lastKey = event.keyCode;
+    State.lastKey = event.code;
     let code = event.keyCode;
-    // console.log('key');
-    // console.dir(event);
-    // console.log("key code = ", code);
+    State.keyDown = true;
     switch (code) {
         case 37: // Left key
-          if (myGame.paused === false) {
-            State.lastKey = 'left';
+          if ((myGame.paused === false) && (myGame.curKey !== 'left')) {
+            myGame.curKey = 'left';
           }
           break;
         case 39: //Right key
-          if (myGame.paused === false) {
-            State.lastKey = 'right';
+          if ((myGame.paused === false) && (myGame.curKey !== 'right'))  {
+            myGame.curKey = 'right';
           }
           break;
         case 38: // Up key
-          if (myGame.paused === false) {
-            State.lastKey = 'up';
+          if ((myGame.paused === false) && (myGame.curKey !== 'up')) {
+            myGame.curKey = 'up';
           }
           break;
         case 40: //Down key
-          if (myGame.paused === false) {
-            State.lastKey = 'down';
+          if ((myGame.paused === false) && (myGame.curKey !== 'down')) { 
+            myGame.curKey = 'down';
           }
           break;
         case 65: // A key
-          if (myGame.paused === false) {
-              State.lastKey = 'left';
-          }
+          if (myGame.paused === false) { myGame.curKey = 'left'; }
           break;
         case 68: // D key
-          if (myGame.paused === false) {
-            State.lastKey = 'right';
-          }
+          if (myGame.paused === false) { myGame.curKey = 'right'; }
           break;
         case 87: // W key
-          if (myGame.paused === false) {
-            State.lastKey = 'up';
-          }
+          if (myGame.paused === false) { myGame.curKey = 'up'; }
           break;
         case 83: // S key
-          if (myGame.paused === false) {
-            State.lastKey = 'down';
-          }
+          if (myGame.paused === false) { myGame.curKey = 'down'; }
           break;
         case 32: // spacebar
-          State.lastKey = 'spacebar';
+          myGame.curKey = 'spacebar';
           if (State.gameStarted === true) {
             if (myGame.paused === true) {
               myGame.unpauseIt();
@@ -168,6 +160,13 @@ function keyDown(event) {
     $("#lastkey-code").text(event.keyCode);
 }
 
+function keyUp(event) {
+    event.preventDefault(); // prevents page from scrolling within window frame
+    console.log('key up');
+    console.log('event = ', event);
+    myGame.curKey = undefined;
+    State.keyDown = false;
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 // MOUSE INPUT
@@ -216,15 +215,12 @@ function gameLoop(timestamp) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
 
-  function test() {
-    console.log('test works');
-  }
-
   CANVAS =  $('#canvas')[0];
   CTX =  CANVAS.getContext('2d');
   canH = CANVAS.height;
   canW = CANVAS.width;
   CANVAS.addEventListener("keydown",keyDown);
+  CANVAS.addEventListener("keyup",keyUp);
   CANVAS.addEventListener("mousedown", mDown);
   CANVAS.addEventListener("mouseup", mUp);
   $('body').on('contextmenu', '#canvas', function(e){ return false; }); // prevent right click context menu default action
