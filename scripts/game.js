@@ -9,10 +9,13 @@ function Game(updateDur) {
   this.bg = new Image();
   this.boxy = undefined;
   this.pausedTxt = undefined;
+  this.myWolf = undefined;
   this.mode = 'init'; // init, play
 
   this.init = function() {
     this.bg.src = 'images/bg1.png';
+    this.myWolf = new Wolf();
+    this.myWolf.init('images/wolf1.png');
     this.boxy = new Box(20,20,myColors.red,20,1);
     this.lastUpdate = performance.now();
   };
@@ -30,12 +33,13 @@ function Game(updateDur) {
   };
 
   this.drawBG = function() { // display background over canvas
-    ctx.imageSmoothingEnabled = false;  // turns off AntiAliasing
-    ctx.drawImage(this.bg,0,0,CANVAS.width,CANVAS.height);
+    CTX.imageSmoothingEnabled = false;  // turns off AntiAliasing
+    CTX.drawImage(this.bg,0,0,CANVAS.width,CANVAS.height);
   };
 
   this.draw = function() {  // draw everything!
     this.boxy.draw();
+    this.myWolf.draw();
   }; // end draw
 
   this.update = function() {

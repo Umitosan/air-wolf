@@ -2,7 +2,7 @@
 
 
 function clearCanvas() {
-  ctx.clearRect(-1, -1, canvas.width+1, canvas.height+1); // offset by 1 px because the whole canvas is offset initially (for better pixel accuracy)
+  CTX.clearRect(-1, -1, canvas.width+1, canvas.height+1); // offset by 1 px because the whole canvas is offset initially (for better pixel accuracy)
 }
 
 function getRandomIntInclusive(min, max) {

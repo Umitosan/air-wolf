@@ -3,7 +3,7 @@
 var CANVAS,
     canH,
     canW,
-    ctx,
+    CTX,
     myGame;
 var myColors = new Colors();
 
@@ -69,11 +69,11 @@ function Box(x,y,color,size,vel) {
   this.yVel = vel;
 
   this.draw = function() {
-    ctx.beginPath();
-    ctx.rect(this.x,this.y,this.size,this.size);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    // ctx.stroke();
+    CTX.beginPath();
+    CTX.rect(this.x,this.y,this.size,this.size);
+    CTX.fillStyle = this.color;
+    CTX.fill();
+    // CTX.stroke();
   };
 
   this.update = function() {
@@ -200,7 +200,9 @@ function gameLoop(timestamp) {
   // timestamp uses performance.now() to compute the time
   State.myReq = requestAnimationFrame(gameLoop);
 
-  if ( (State.loopRunning === true) && (State.gameStarted === true) ) { myGame.update(); }
+  if ( (State.loopRunning === true) && (State.gameStarted === true) ) {
+    myGame.update();
+  }
 
   clearCanvas();
   if (State.gameStarted === false) {
@@ -209,7 +211,7 @@ function gameLoop(timestamp) {
     myGame.draw();
   }
 
-}
+} // gameLoop
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
@@ -219,7 +221,7 @@ $(document).ready(function() {
   }
 
   CANVAS =  $('#canvas')[0];
-  ctx =  CANVAS.getContext('2d');
+  CTX =  CANVAS.getContext('2d');
   canH = CANVAS.height;
   canW = CANVAS.width;
   CANVAS.addEventListener("keydown",keyDown);
@@ -239,7 +241,7 @@ $(document).ready(function() {
 
   // this is to correct for canvas blurryness on single pixel wide lines etc
   // important when animating to reduce rendering artifacts and other oddities
-  // ctx.translate(0.5, 0.5);
+  // CTX.translate(0.5, 0.5);
 
   // start things up!
   myGame = new Game(State.simSpeed); // ms per update()
