@@ -145,42 +145,42 @@ function keyDown(event) {
         case 37: // Left arrow key
           State.keysDown.left = true;
           document.getElementById("key-left").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('left'); }
+          if (myGame.paused === false) { myGame.updateLastDirKeyX('left'); }
           break;
         case 39: //Right arrow key
           State.keysDown.right = true;
           document.getElementById("key-right").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('right'); }
+          if (myGame.paused === false) { myGame.updateLastDirKeyX('right'); }
           break;
         case 38: // Up arrow key
           State.keysDown.up = true;
           document.getElementById("key-up").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('up'); }
+          if (myGame.paused === false) { myGame.updateLastDirKeyY('up'); }
           break;
         case 40: //Down arrow key
           State.keysDown.down = true;
           document.getElementById("key-down").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('down');}
+          if (myGame.paused === false) { myGame.updateLastDirKeyY('down'); }
           break;
         case 65: // A key
           State.keysDown.a = true;
           document.getElementById("key-A").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('left'); }
+          if (myGame.paused === false) { myGame.updateLastDirKeyX('left'); }
           break;
         case 68: // D key
           State.keysDown.d = true;
           document.getElementById("key-D").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('right'); }
+          if (myGame.paused === false) { myGame.updateLastDirKeyX('right'); }
           break;
         case 87: // W key
           State.keysDown.w = true;
           document.getElementById("key-W").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('up'); }
+          if (myGame.paused === false) { myGame.updateLastDirKeyY('up'); }
           break;
         case 83: // S key
           State.keysDown.s = true;
           document.getElementById("key-S").style.backgroundColor = "pink";
-          if (myGame.paused === false) { myGame.updateLastDirKey('down'); }
+          if (myGame.paused === false) { myGame.updateLastDirKeyY('down'); }
           break;
         case 32: // spacebar
           if (State.gameStarted === true) {
@@ -211,42 +211,42 @@ function keyUp(event) {
       case 37: // Left key
         State.keysDown.left = false;
         document.getElementById("key-left").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('left'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyX('left'); }
         break;
       case 39: //Right key
         State.keysDown.right = false;
         document.getElementById("key-right").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('right'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyX('right'); }
         break;
       case 38: // Up key
         State.keysDown.up = false;
         document.getElementById("key-up").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('up'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyY('up'); }
         break;
       case 40: //Down key
         State.keysDown.down = false;
         document.getElementById("key-down").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('down'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyY('down'); }
         break;
       case 65: // A key
         State.keysDown.a = false;
         document.getElementById("key-A").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('left'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyX('left'); }
         break;
       case 68: // D key
         State.keysDown.d = false;
         document.getElementById("key-D").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('right'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyX('right'); }
         break;
       case 87: // W key
         State.keysDown.w = false;
         document.getElementById("key-W").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('up'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyY('up'); }
         break;
       case 83: // S key
         State.keysDown.s = false;
         document.getElementById("key-S").style.backgroundColor = "lightblue";
-        if (myGame.paused === false) { myGame.tryClearLastDirKey('down'); }
+        if (myGame.paused === false) { myGame.tryClearLastDirKeyY('down'); }
         break;
       case 32: // spacebar
         // nothin
@@ -260,15 +260,15 @@ function keyUp(event) {
   for (let k in State.keysDown) { // after letting go of a key, check and update direction if there's only one key still down
     if (State.keysDown[k] === true) {
       if (k === 'a') {
-        myGame.updateLastDirKey('left');
+        myGame.updateLastDirKeyX('left');
       } else if (k === 'd') {
-        myGame.updateLastDirKey('right');
+        myGame.updateLastDirKeyX('right');
       } else if (k === 'w') {
-        myGame.updateLastDirKey('up');
+        myGame.updateLastDirKeyY('up');
       } else if (k === 's') {
-        myGame.updateLastDirKey('down');
+        myGame.updateLastDirKeyY('down');
       } else { // for up left right down strings
-        myGame.updateLastDirKey(k);
+        // notin
       }
     }
   } // for

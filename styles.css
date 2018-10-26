@@ -1,25 +1,27 @@
 
-/*
-font-family: 'Roboto', sans-serif;
-font-family: 'Shrikhand', cursive
+/* FONTS
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Shrikhand', cursive
 */
 
-/*
-Colors:
-Teal: rgba(102,150,142,1);
+/* COLORS
+  Teal: rgba(102,150,142,1)
+  brownish: #3e2723
+  purpleish: #9198e5
 */
 
 body {
   margin: 0px 0px;
   background: linear-gradient(to right, #9198e5 0%, lightblue 30%, lightblue 70%, #9198e5 100%);
   background-size: cover;
+  color: #3e2723;
 }
 
 .main-container {
   width: 1000px;
   height: 100%;
   margin: 20px auto 0px auto;
-  border-color: black;
+  border-color: #3e2723;
   border-style: solid;
   border-width: 2px;
   border-radius: 6px;
@@ -162,10 +164,10 @@ body {
 }
 #canvas {
   margin: 0px 0px;
-  background-color: white;
-  /* outline-color: red;
+  background-color: lightblue;
+  outline-color: #9198e5;
   outline-style: solid;
-  outline-width: 1px; */
+  outline-width: 2px;
 }
 
 

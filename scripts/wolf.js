@@ -8,7 +8,7 @@ function Wolf() {
   this.xVel = 0;
   this.yVel = 0;
   this.img = undefined;
-  this.balseVel = 6;
+  this.balseVel = 4;
   this.propX = 0;
   this.propY = 0;
   this.propAngle = 0;
@@ -22,25 +22,22 @@ function Wolf() {
   };
 
   this.updateVel = function(someDir) {
-    // console.log('myWolf.updateVel');
+    // console.log('myWolf.updateVel dir = ', someDir);
     if (someDir !== undefined) {
       if (someDir === 'up') {
         this.yVel = -this.balseVel;
-        this.xVel = 0;
       } else if (someDir === 'down') {
         this.yVel = this.balseVel;
-        this.xVel = 0;
       } else if (someDir === 'left') {
         this.xVel = -this.balseVel;
-        this.yVel = 0;
       } else if (someDir === 'right') {
         this.xVel = this.balseVel;
-        this.yVel = 0;
+      } else {
+        console.log('not up down right or left');
       }
     } else {
       console.log('no dir for myWolf.updateVel');
     }
-    // console.log("xVel: "+this.xVel+"  yVel: "+this.yVel);
   };
 
   this.draw = function() {
@@ -81,15 +78,15 @@ function Wolf() {
   }; // draw
 
   this.update = function() {
-    if (myGame.lastDirKey !== undefined) {
+    if (myGame.lastDirKeyX !== undefined) {
       this.x += this.xVel;
-      this.y += this.yVel;
       this.propX = this.x-1.5;
+    }
+    if (myGame.lastDirKeyY !== undefined) {
+      this.y += this.yVel;
       this.propY = this.y-12;
     }
-    this.propAngle += 25;
-    if (this.propAngle === 25000) { // reset when it gets large
-      this.propAngle = 0;
-    }
+    this.propAngle += 25; // rotate the prop
+    if (this.propAngle === 25000) { this.propAngle = 0; } // reset when it gets large just cuz
   }; // update
 }
