@@ -11,7 +11,8 @@ Teal: rgba(102,150,142,1);
 
 body {
   margin: 0px 0px;
-  background: linear-gradient(#9198e5,lightblue);
+  background: linear-gradient(to right, #9198e5 0%, lightblue 30%, lightblue 70%, #9198e5 100%);
+  background-size: cover;
 }
 
 .main-container {

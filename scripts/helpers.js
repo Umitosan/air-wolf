@@ -20,3 +20,7 @@ function generalLoopReset() {
   myGame.init();
   State.myReq = requestAnimationFrame(gameLoop);
 }
+
+function getRadianAngle(degreeValue) {
+  return degreeValue * Math.PI / 180;
+}
