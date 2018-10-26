@@ -199,15 +199,13 @@ function keyDown(event) {
           break;
     } // switch
     updateKeysTotal();
-    console.log("total keys pressed: ", State.totalKeysDown);
     $("#lastkey-name").text("'"+event.code+"'");
     $("#lastkey-code").text(event.keyCode);
-    // console.log("keys: ",State.keysDown);
 }
 
 function keyUp(event) {
   event.preventDefault(); // prevents page from scrolling within window frame
-  if (State.keysDown.total === 0) { State.keyPressed = true; }
+  if (State.keysDown.total === 0) { State.keyPressed = false; }
   let code = event.keyCode;
   switch (code) {
       case 37: // Left key
@@ -260,10 +258,20 @@ function keyUp(event) {
   updateKeysTotal();
   // console.log("total keys pressed: ", State.totalKeysDown);
   for (let k in State.keysDown) { // after letting go of a key, check and update direction if there's only one key still down
-      if (State.keysDown[k] === true) {
+    if (State.keysDown[k] === true) {
+      if (k === 'a') {
+        myGame.updateLastDirKey('left');
+      } else if (k === 'd') {
+        myGame.updateLastDirKey('right');
+      } else if (k === 'w') {
+        myGame.updateLastDirKey('up');
+      } else if (k === 's') {
+        myGame.updateLastDirKey('down');
+      } else { // for up left right down strings
         myGame.updateLastDirKey(k);
       }
-  }
+    }
+  } // for
 } // keyUp
 
 //////////////////////////////////////////////////////////////////////////////////
