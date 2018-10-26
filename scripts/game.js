@@ -4,7 +4,7 @@
 function Game(updateDur) {
   this.timeGap = 0;
   this.lastUpdate = 0;
-  this.updateDuration = updateDur; // milliseconds duration between update()
+  this.updateDuration = updateDur; // milliseconds wait between update()
   this.paused = false;
   this.curKey = undefined;
   this.bg = new Image();

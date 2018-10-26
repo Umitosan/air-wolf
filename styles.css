@@ -4,9 +4,14 @@ font-family: 'Roboto', sans-serif;
 font-family: 'Shrikhand', cursive
 */
 
+/*
+Colors:
+Teal: rgba(102,150,142,1);
+*/
+
 body {
   margin: 0px 0px;
-  background-color: rgba(102,150,142,1);
+  background: linear-gradient(#9198e5,lightblue);
 }
 
 .main-container {
@@ -28,66 +33,46 @@ body {
   font-family: sans-serif;
 }
 
-.speed-container {
-  width: 576px;
-  display: flex;
-  margin: 10px auto 0px auto;
-  /* outline-color: red;
+
+.keys-container {
+  height: auto;
+  width: 340px;
+  margin: 0px auto 20px auto;
+  /* outline-color: darkblue;
   outline-style: solid;
   outline-width: 1px; */
 }
-.speed-label {
-  font-size: 24px;
+.keys-main {
+  display: inline-flex;
+  height: auto;
+  width: auto;
+  margin: 0px auto 0px auto;
 }
-#speed-slider {
-  margin: 0px 10px 0px 10px;
-  width: 230px;
+.keys-group {
+  margin: 0px 1px 0px 1px;
+  display: grid;
+  grid-template-columns: 50px 50px 50px;
+  grid-template-rows: 20px 50px 50px;
+  background-color: #3e2723;
+  padding: 6px;
+  border-radius: 4px;
 }
-#speed-input {
-  margin-left: 5px;
-  margin-right: 10px;
-  border-style: none;
-  width: 60px;
-  height: 26px;
-  font-size: 16px;
+.keys-item {
+  background-color: lightblue;
+  outline: 1px solid #3e2723;
+  padding: 20px 0px 0px 0px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 4px;
 }
-input[type=range]{
-    -webkit-appearance: none;
-    background-color: rgba(102,150,142,1);
+.gap {
+  background-color: #3e2723;
 }
-input[type=range]::-webkit-slider-runnable-track {
-    height: 5px;
-    background: darkGrey;
-    border: none;
-    border-radius: 3px;
+.ki-title {
+  padding: 2px;
+  grid-column-start: 1;
+  grid-column-end: 4;
 }
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: black;
-    margin-top: -5px;
-}
-input[type=range]::-moz-range-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: black;
-    margin-top: -5px;
-}
-input[type=range]:focus {
-    outline: none;
-}
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
-}
-
-
-
 
 
 .buttons-container {
@@ -163,8 +148,6 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   text-align: center;
   font-size: 20px;
 }
-
-
 
 
 

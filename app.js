@@ -7,7 +7,7 @@ var CANVAS,
     myGame;
 var myColors = new Colors();
 
-var defaultSimSpeed = 100;
+var defaultSimSpeed = 14; // ms per update
 
 var State = {
   myReq: undefined,
@@ -15,7 +15,7 @@ var State = {
   gameStarted: false,
   lastFrameTimeMs: 0, // The last time the loop was run
   maxFPS: 60, // The maximum FPS allowed
-  simSpeed: defaultSimSpeed, // speed of simulation loop
+  simSpeed: defaultSimSpeed, // ms per update
   playTime: 0,
   frameCounter: 0,
   lastKey: 'none',
@@ -123,7 +123,7 @@ function keyDown(event) {
           }
           break;
         case 40: //Down key
-          if ((myGame.paused === false) && (myGame.curKey !== 'down')) { 
+          if ((myGame.paused === false) && (myGame.curKey !== 'down')) {
             myGame.curKey = 'down';
           }
           break;
@@ -161,9 +161,53 @@ function keyDown(event) {
 }
 
 function keyUp(event) {
-    event.preventDefault(); // prevents page from scrolling within window frame
-    console.log('key up');
-    console.log('event = ', event);
+  event.preventDefault(); // prevents page from scrolling within window frame
+  // State.lastKey = event.code;
+  let code = event.keyCode;
+  switch (code) {
+      case 37: // Left key
+        if ((myGame.paused === false) && (myGame.curKey === 'left')) {
+          myGame.curKey = undefined;
+          State.keyDown = false;
+        }
+        break;
+      case 39: //Right key
+        if ((myGame.paused === false) && (myGame.curKey === 'right'))  {
+          myGame.curKey = undefined;
+          State.keyDown = false;
+        }
+        break;
+      case 38: // Up key
+        if ((myGame.paused === false) && (myGame.curKey === 'up')) {
+          myGame.curKey = undefined;
+          State.keyDown = false;
+        }
+        break;
+      case 40: //Down key
+        if ((myGame.paused === false) && (myGame.curKey === 'down')) {
+          myGame.curKey = undefined;
+          State.keyDown = false;
+        }
+        break;
+      case 65: // A key
+        if (myGame.paused === false) { myGame.curKey = 'left'; }
+        break;
+      case 68: // D key
+        if (myGame.paused === false) { myGame.curKey = 'right'; }
+        break;
+      case 87: // W key
+        if (myGame.paused === false) { myGame.curKey = 'up'; }
+        break;
+      case 83: // S key
+        if (myGame.paused === false) { myGame.curKey = 'down'; }
+        break;
+      default: // Everything else
+        // State.lastKey = code;
+        break;
+  }
+  // $("#lastkey-name").text("'"+event.code+"'");
+  // $("#lastkey-code").text(event.keyCode);
+
     myGame.curKey = undefined;
     State.keyDown = false;
 }
@@ -254,10 +298,12 @@ $(document).ready(function() {
       console.log('mode now play');
       State.gameStarted = true;
       $('#mode-current-status')[0].innerText = 'play';
-      let v = $('#speed-slider').val();
-      $('#speed-input').prop("value", v);
-      myGame.updateDuration = (1000/v);
+      // let v = $('#speed-slider').val();
+      // $('#speed-input').prop("value", v);
+      // myGame.updateDuration = (1000/v);
+      // myGame.updateDuration = 10;
       myGame.lastUpdate = performance.now();
+      CANVAS.focus();
     } else {
       console.log('must reset before starting again');
     }
@@ -281,30 +327,6 @@ $(document).ready(function() {
     } else if (myGame.paused === true) {
       myGame.unpauseIt();
       $('#pause-btn')[0].innerText = 'PAUSE';
-    }
-  });
-
-  //INPUT
-  $('#speed-slider').mousedown(function(e1) {
-    leftMouseDown = true;
-  }).mouseup(function(e2) {
-    leftMouseDown = false;
-  });
-  $('#speed-input').on('change', function(e) {
-    let v = this.value;
-    $('#speed-slider').prop("value", v);
-    if (myGame.mode === 'play') {
-      myGame.updateDuration = (1000/v);
-    }
-  });
-
-  $('#speed-slider').mousemove(function(e) {
-    if (leftMouseDown === true) {
-      let v = this.value;
-      $('#speed-input').prop("value", v);
-      if (myGame.mode === 'play') {
-        myGame.updateDuration = (1000/v);
-      }
     }
   });
 

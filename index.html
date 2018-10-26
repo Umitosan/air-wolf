@@ -20,26 +20,15 @@
         <span id="title">Air Wolf</span>
       </div>
 
-      <div class="speed-container">
-        <span class="speed-label">Game Speed</span>
-        <input id="speed-slider" type="range" name="speed-slider" min="1" max="200" step="1" value="60">
-        <input id="speed-input" type="number" name="speed-input" value="60" min="1" max="200">
-        <span class="speed-label">(updates/sec)</span>
-      </div>
-
       <div class="status-container">
         <div class="mode-container">
+          <div> MODE: </div>
           <div>
-            MODE:
-          </div>
-          <div>
-            <span id="mode-current-status">draw</span>
+            <span id="mode-current-status">init</span>
           </div>
         </div>
         <div class="lastkey-container">
-          <div>
-            "Last Key" (key code):
-          </div>
+          <div> "Last Key" (key code): </div>
           <div>
             <span id="lastkey-name">---</span>
             -
@@ -48,12 +37,37 @@
         </div>
         <div class="coords-container">
           <div id="coords">
-            <div>
-              Mouse Coords
-            </div>
+            <div> Mouse Coords </div>
             <div>
               X: <span id="coords-x">0</span> Y: <span id="coords-y">0</span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="keys-container">
+        <div class="keys-main">
+          <div class="keys-group">
+            <div class="keys-item ki-title">
+              WASD
+            </div>
+            <div class="keys-item gap"></div>
+            <div class="keys-item key-W">W</div>
+            <div class="keys-item gap"></div>
+            <div class="keys-item key-A">A</div>
+            <div class="keys-item key-S">S</div>
+            <div class="keys-item key-D">D</div>
+          </div>
+          <div class="keys-group">
+            <div class="keys-item ki-title">
+              Arrows
+            </div>
+            <div class="keys-item gap"></div>
+            <div class="keys-item key-up">Up</div>
+            <div class="keys-item gap"></div>
+            <div class="keys-item key-left">Left</div>
+            <div class="keys-item key-down">Down</div>
+            <div class="keys-item key-right">Right</div>
           </div>
         </div>
       </div>
