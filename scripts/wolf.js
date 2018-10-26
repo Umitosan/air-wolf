@@ -17,7 +17,7 @@ function Wolf() {
   };
 
   this.updateVel = function(someDir) {
-    console.log('myWolf.updateVel');
+    // console.log('myWolf.updateVel');
     if (someDir !== undefined) {
       if (someDir === 'up') {
         this.yVel = -this.balseVel;

@@ -87,7 +87,7 @@ function softReset() {
 function updateKeysTotal() {
   let total = 0;
   for (let k in State.keysDown) {
-    if (object.hasOwnProperty(k)) {
+    if (State.keysDown[k] === true) {
       total += 1;
     }
   }
@@ -198,6 +198,8 @@ function keyDown(event) {
           // nothin
           break;
     } // switch
+    updateKeysTotal();
+    console.log("total keys pressed: ", State.totalKeysDown);
     $("#lastkey-name").text("'"+event.code+"'");
     $("#lastkey-code").text(event.keyCode);
     // console.log("keys: ",State.keysDown);
@@ -255,6 +257,13 @@ function keyUp(event) {
         // nothin
         break;
   } // switch
+  updateKeysTotal();
+  // console.log("total keys pressed: ", State.totalKeysDown);
+  for (let k in State.keysDown) { // after letting go of a key, check and update direction if there's only one key still down
+      if (State.keysDown[k] === true) {
+        myGame.updateLastDirKey(k);
+      }
+  }
 } // keyUp
 
 //////////////////////////////////////////////////////////////////////////////////
