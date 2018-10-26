@@ -9,44 +9,6 @@ var myColors = new Colors();
 
 var defaultSimSpeed = 14; // ms per update
 
-var State = {
-  myReq: undefined,
-  loopRunning: false,
-  gameStarted: false,
-  lastFrameTimeMs: 0, // The last time the loop was run
-  maxFPS: 60, // The maximum FPS allowed
-  simSpeed: defaultSimSpeed, // ms per update
-  playTime: 0,
-  frameCounter: 0,
-  lastKey: 'none',
-  keyDown: false,
-  mouseX: 0,
-  mouseY: 0,
-  mouseLeftDown: false,
-  mouseRightDown: false
-};
-
-function softReset() {
-  console.log('soft reset!');
-  myGame = undefined;
-  State = {
-    myReq: undefined,
-    loopRunning: false,
-    gameStarted: false,
-    lastFrameTimeMs: 0, // The last time the loop was run
-    maxFPS: 60, // The maximum FPS allowed
-    simSpeed: defaultSimSpeed, // speed of simulation loop
-    playTime: 0,
-    frameCounter: 0,
-    lastKey: 'none',
-    keyDown: false,
-    mouseX: 0,
-    mouseY: 0,
-    mouseLeftDown: false,
-    mouseRightDown: false
-  };
-}
-
 function Colors() {
   this.black = 'rgba(0, 0, 0, 1)';
   this.darkGrey = 'rgba(50, 50, 50, 1)';
@@ -62,40 +24,110 @@ function Colors() {
   this.electricBlue = 'rgba(20, 30, 230, 1)';
 }
 
-function Box(x,y,color,size,vel) {
-  this.x = x;
-  this.y = y;
-  this.color = color;
-  this.size =  size;
-  this.xVel = vel;
-  this.yVel = vel;
+var State = {
+  myReq: undefined,
+  loopRunning: false,
+  gameStarted: false,
+  lastFrameTimeMs: 0, // The last time the loop was run
+  maxFPS: 60, // The maximum FPS allowed
+  simSpeed: defaultSimSpeed, // ms per update
+  playTime: 0,
+  frameCounter: 0,
+  lastKey: 'none',
+  keyPressed: false,
+  mouseX: 0,
+  mouseY: 0,
+  mouseLeftDown: false,
+  mouseRightDown: false,
+  keysDown: {
+        w: false,
+        s: false,
+        a: false,
+        d: false,
+        up: false,
+        down: false,
+        left: false,
+        right: false,
+        space: false
+  }
+};
 
-  this.draw = function() {
-    CTX.beginPath();
-    CTX.rect(this.x,this.y,this.size,this.size);
-    CTX.fillStyle = this.color;
-    CTX.fill();
-    // CTX.stroke();
+function softReset() {
+  console.log('soft reset!');
+  myGame = undefined;
+  State = {
+    myReq: undefined,
+    loopRunning: false,
+    gameStarted: false,
+    lastFrameTimeMs: 0, // The last time the loop was run
+    maxFPS: 60, // The maximum FPS allowed
+    simSpeed: defaultSimSpeed, // speed of simulation loop
+    playTime: 0,
+    frameCounter: 0,
+    lastKey: 'none',
+    keyPressed: false,
+    mouseX: 0,
+    mouseY: 0,
+    mouseLeftDown: false,
+    mouseRightDown: false,
+    totalKeysDown: 0,
+    keysDown: {
+          w: false,
+          s: false,
+          a: false,
+          d: false,
+          up: false,
+          down: false,
+          left: false,
+          right: false
+    }
   };
+}
 
-  this.update = function() {
-    if ((this.xVel > 0) && ((this.x + this.size + this.xVel) > canW)) {
-      this.xVel *= -1;
+function updateKeysTotal() {
+  let total = 0;
+  for (let k in State.keysDown) {
+    if (object.hasOwnProperty(k)) {
+      total += 1;
     }
-    if ((this.xVel < 0) && ((this.x + this.xVel) < 0)) {
-      this.xVel *= -1;
-    }
-    if ((this.yVel > 0) && ((this.y + this.size + this.yVel) > canH)) {
-      this.yVel *= -1;
-    }
-    if ((this.yVel < 0) && ((this.y + this.yVel) < 0)) {
-      this.yVel *= -1;
-    }
-    this.x += this.xVel;
-    this.y += this.yVel;
-  };
+  }
+  State.totalKeysDown = total;
+}
 
-} // end box
+// function Box(x,y,color,size,vel) {
+//   this.x = x;
+//   this.y = y;
+//   this.color = color;
+//   this.size =  size;
+//   this.xVel = vel;
+//   this.yVel = vel;
+//
+//   this.draw = function() {
+//     CTX.beginPath();
+//     CTX.rect(this.x,this.y,this.size,this.size);
+//     CTX.fillStyle = this.color;
+//     CTX.fill();
+//     // CTX.stroke();
+//   };
+//
+//   this.update = function() {
+//     if ((this.xVel > 0) && ((this.x + this.size + this.xVel) > canW)) {
+//       this.xVel *= -1;
+//     }
+//     if ((this.xVel < 0) && ((this.x + this.xVel) < 0)) {
+//       this.xVel *= -1;
+//     }
+//     if ((this.yVel > 0) && ((this.y + this.size + this.yVel) > canH)) {
+//       this.yVel *= -1;
+//     }
+//     if ((this.yVel < 0) && ((this.y + this.yVel) < 0)) {
+//       this.yVel *= -1;
+//     }
+//     this.x += this.xVel;
+//     this.y += this.yVel;
+//   };
+//
+// } // end box
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -104,43 +136,53 @@ function Box(x,y,color,size,vel) {
 function keyDown(event) {
     event.preventDefault(); // prevents page from scrolling within window frame
     State.lastKey = event.code;
+    State.keyPressed = true;
     let code = event.keyCode;
-    State.keyDown = true;
-    switch (code) {
-        case 37: // Left key
-          if ((myGame.paused === false) && (myGame.curKey !== 'left')) {
-            myGame.curKey = 'left';
-          }
+    let keyWhich = event.which;
+    // console.log('event = ', event);
+    // console.log('event.which = ', event.which);
+    switch (keyWhich) {
+        case 37: // Left arrow key
+          State.keysDown.left = true;
+          document.getElementById("key-left").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('left'); }
           break;
-        case 39: //Right key
-          if ((myGame.paused === false) && (myGame.curKey !== 'right'))  {
-            myGame.curKey = 'right';
-          }
+        case 39: //Right arrow key
+          State.keysDown.right = true;
+          document.getElementById("key-right").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('right'); }
           break;
-        case 38: // Up key
-          if ((myGame.paused === false) && (myGame.curKey !== 'up')) {
-            myGame.curKey = 'up';
-          }
+        case 38: // Up arrow key
+          State.keysDown.up = true;
+          document.getElementById("key-up").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('up'); }
           break;
-        case 40: //Down key
-          if ((myGame.paused === false) && (myGame.curKey !== 'down')) {
-            myGame.curKey = 'down';
-          }
+        case 40: //Down arrow key
+          State.keysDown.down = true;
+          document.getElementById("key-down").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('down');}
           break;
         case 65: // A key
-          if (myGame.paused === false) { myGame.curKey = 'left'; }
+          State.keysDown.a = true;
+          document.getElementById("key-A").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('left'); }
           break;
         case 68: // D key
-          if (myGame.paused === false) { myGame.curKey = 'right'; }
+          State.keysDown.d = true;
+          document.getElementById("key-D").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('right'); }
           break;
         case 87: // W key
-          if (myGame.paused === false) { myGame.curKey = 'up'; }
+          State.keysDown.w = true;
+          document.getElementById("key-W").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('up'); }
           break;
         case 83: // S key
-          if (myGame.paused === false) { myGame.curKey = 'down'; }
+          State.keysDown.s = true;
+          document.getElementById("key-S").style.backgroundColor = "pink";
+          if (myGame.paused === false) { myGame.updateLastDirKey('down'); }
           break;
         case 32: // spacebar
-          myGame.curKey = 'spacebar';
           if (State.gameStarted === true) {
             if (myGame.paused === true) {
               myGame.unpauseIt();
@@ -153,64 +195,67 @@ function keyDown(event) {
           }
           break;
         default: // Everything else
-          State.lastKey = code;
+          // nothin
           break;
-    }
+    } // switch
     $("#lastkey-name").text("'"+event.code+"'");
     $("#lastkey-code").text(event.keyCode);
+    // console.log("keys: ",State.keysDown);
 }
 
 function keyUp(event) {
   event.preventDefault(); // prevents page from scrolling within window frame
-  // State.lastKey = event.code;
+  if (State.keysDown.total === 0) { State.keyPressed = true; }
   let code = event.keyCode;
   switch (code) {
       case 37: // Left key
-        if ((myGame.paused === false) && (myGame.curKey === 'left')) {
-          myGame.curKey = undefined;
-          State.keyDown = false;
-        }
+        State.keysDown.left = false;
+        document.getElementById("key-left").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('left'); }
         break;
       case 39: //Right key
-        if ((myGame.paused === false) && (myGame.curKey === 'right'))  {
-          myGame.curKey = undefined;
-          State.keyDown = false;
-        }
+        State.keysDown.right = false;
+        document.getElementById("key-right").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('right'); }
         break;
       case 38: // Up key
-        if ((myGame.paused === false) && (myGame.curKey === 'up')) {
-          myGame.curKey = undefined;
-          State.keyDown = false;
-        }
+        State.keysDown.up = false;
+        document.getElementById("key-up").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('up'); }
         break;
       case 40: //Down key
-        if ((myGame.paused === false) && (myGame.curKey === 'down')) {
-          myGame.curKey = undefined;
-          State.keyDown = false;
-        }
+        State.keysDown.down = false;
+        document.getElementById("key-down").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('down'); }
         break;
       case 65: // A key
-        if (myGame.paused === false) { myGame.curKey = 'left'; }
+        State.keysDown.a = false;
+        document.getElementById("key-A").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('left'); }
         break;
       case 68: // D key
-        if (myGame.paused === false) { myGame.curKey = 'right'; }
+        State.keysDown.d = false;
+        document.getElementById("key-D").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('right'); }
         break;
       case 87: // W key
-        if (myGame.paused === false) { myGame.curKey = 'up'; }
+        State.keysDown.w = false;
+        document.getElementById("key-W").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('up'); }
         break;
       case 83: // S key
-        if (myGame.paused === false) { myGame.curKey = 'down'; }
+        State.keysDown.s = false;
+        document.getElementById("key-S").style.backgroundColor = "lightblue";
+        if (myGame.paused === false) { myGame.tryClearLastDirKey('down'); }
+        break;
+      case 32: // spacebar
+        // nothin
         break;
       default: // Everything else
-        // State.lastKey = code;
+        // nothin
         break;
-  }
-  // $("#lastkey-name").text("'"+event.code+"'");
-  // $("#lastkey-code").text(event.keyCode);
-
-    myGame.curKey = undefined;
-    State.keyDown = false;
-}
+  } // switch
+} // keyUp
 
 //////////////////////////////////////////////////////////////////////////////////
 // MOUSE INPUT

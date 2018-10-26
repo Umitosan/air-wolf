@@ -16,29 +16,37 @@ function Wolf() {
     console.log('myWolf init');
   };
 
+  this.updateVel = function(someDir) {
+    console.log('myWolf.updateVel');
+    if (someDir !== undefined) {
+      if (someDir === 'up') {
+        this.yVel = -this.balseVel;
+        this.xVel = 0;
+      } else if (someDir === 'down') {
+        this.yVel = this.balseVel;
+        this.xVel = 0;
+      } else if (someDir === 'left') {
+        this.xVel = -this.balseVel;
+        this.yVel = 0;
+      } else if (someDir === 'right') {
+        this.xVel = this.balseVel;
+        this.yVel = 0;
+      }
+    } else {
+      console.log('no dir for myWolf.updateVel');
+    }
+    console.log("xVel: "+this.xVel+"  yVel: "+this.yVel);
+  };
+
   this.draw = function() {
     // CTX.drawImage(img, dx, dy, dWidth, dHeight);
     CTX.drawImage(this.img, this.x-40, this.y-40, 80, 80);
-  };
+  }; // draw
 
   this.update = function() {
-    if (myGame.curKey !== undefined) {
-        if (myGame.curKey === 'up') {
-          this.yVel = -this.balseVel;
-          this.xVel = 0;
-        } else if (myGame.curKey === 'down') {
-          this.yVel = this.balseVel;
-          this.xVel = 0;
-        } else if (myGame.curKey === 'left') {
-          this.xVel = -this.balseVel;
-          this.yVel = 0;
-        } else if (myGame.curKey === 'right') {
-          this.xVel = this.balseVel;
-          this.yVel = 0;
-        }
-        this.x += this.xVel;
-        this.y += this.yVel;
-    } // keydown
-    // console.log('myWolf update');
-  };
+    if (myGame.lastDirKey !== undefined) {
+      this.x += this.xVel;
+      this.y += this.yVel;
+    }
+  }; // update
 }
