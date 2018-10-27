@@ -26,6 +26,7 @@ function Game(updateDur) {
   this.pauseIt = function() {
     this.paused = true;
   };
+  
   this.unpauseIt = function() {
     this.paused = false;
     // this prevents updating many times after UNpausing
@@ -41,6 +42,7 @@ function Game(updateDur) {
       // ignore input since key is the same
     }
   };
+
   this.updateLastDirKeyY = function(someDir) {
     if (someDir !== this.lastDirKeyY) {
       this.lastDirKeyY = someDir;
@@ -71,6 +73,7 @@ function Game(updateDur) {
       // ignore input since key is the same
     }
   };
+
   this.tryClearLastDirKeyY = function(someDir) {
     if ((someDir === this.lastDirKeyY) && ((State.keysDown.w === false) && (State.keysDown.s === false) &&
                                            (State.keysDown.up === false) && (State.keysDown.down === false))) {

@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 
+
 var CANVAS,
     canH,
     canW,
@@ -181,6 +182,12 @@ function keyDown(event) {
           State.keysDown.s = true;
           document.getElementById("key-S").style.backgroundColor = "pink";
           if (myGame.paused === false) { myGame.updateLastDirKeyY('down'); }
+          break;
+        case 90: // Z key
+          if (State.gameStarted === true) { myGame.myWolf.shoot(); }
+          break;
+        case 191: // Slash key
+          if (State.gameStarted === true) { myGame.myWolf.shoot(); }
           break;
         case 32: // spacebar
           if (State.gameStarted === true) {
