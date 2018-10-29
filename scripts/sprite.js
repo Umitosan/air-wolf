@@ -24,7 +24,7 @@ function SpriteSheet(dx,dy,src,cTotal,rTotal,fDur,fW,fH,dW,dH) {
   };
 
   this.nextFrame = function() {
-    if ((this.curFrameIndex) === this.colTotal-1) {  // if at end of sheet go to beginning
+    if ((this.curFrameIndex) === (this.colTotal-1)) {  // if at end of sheet go to beginning
       this.curFrameIndex = 0;
     } else {
       this.curFrameIndex += 1;
@@ -47,12 +47,13 @@ function SpriteSheet(dx,dy,src,cTotal,rTotal,fDur,fW,fH,dW,dH) {
     // draw slice of image:   drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
     let startX = this.destX;
     let startY = this.destY;
-    CTX.save();
+    let startFrame = this.curFrameIndex;
+    CTX.save(); // using this to go back to alpha = 1 later
     CTX.globalAlpha = 0.4;
     for (let r = 0; r < 16; r++) {
       for (let c = 0; c < 16; c++) {
         CTX.drawImage(  /*image*/   this.sheetImg,
-                        /* sx */    (this.frameWidth*this.curFrameIndex), // read sprite shit right to left like this:  (this.spriteWidth*this.frameTotal-this.spriteWidth) - (this.spriteWidth*this.curFrame)
+                        /* sx */    (this.frameWidth*(startFrame)), // read sprite shit right to left like this:  (this.spriteWidth*this.frameTotal-this.spriteWidth) - (this.spriteWidth*this.curFrame)
                         /* sy */    this.curRowIndex,
                         /*sWidth*/  this.frameWidth,
                         /*sHeight*/ this.frameHeight,
@@ -60,6 +61,12 @@ function SpriteSheet(dx,dy,src,cTotal,rTotal,fDur,fW,fH,dW,dH) {
                         /* dy */    startY+(r*this.displayHeight),
                         /*dWidth*/  this.displayWidth,
                         /*dHidth*/  this.displayHeight );
+
+        if (startFrame === (this.colTotal-1)) {
+          startFrame = 0;
+        } else {
+          startFrame += 1;
+        }
       }
     }
     CTX.restore();
