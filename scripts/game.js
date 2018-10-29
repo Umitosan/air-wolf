@@ -17,8 +17,8 @@ function Game(updateDur) {
   this.init = function() {
     this.bgSplash = new Image();
     this.bgSplash.src = 'images/air_wolf_screen.jpg';
-    this.myWolf = new Wolf();
-    this.myWolf.init('images/wolf1.png');
+    this.myWolf = new Wolf('images/wolf1.png');
+    this.myWolf.init();
     this.bgAnim = new SpriteSheet(  /* dx     */  0,
                                     /* dy     */  0,
                                     /* src    */  'images/waves.png',

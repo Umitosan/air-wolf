@@ -1,13 +1,14 @@
 /*jshint esversion: 6 */
 
 
-function Wolf() {
+function Wolf(src) {
   this.lives = 3;
   this.x = 400;
   this.y = 700;
   this.xVel = 0;
   this.yVel = 0;
   this.img = undefined;
+  this.imgSrc = src;
   this.balseVel = 6;
   this.propX = 0;
   this.propY = 0;
@@ -18,11 +19,10 @@ function Wolf() {
 
   this.init = function(someSrc) {
     this.img = new Image();
-    this.img.src = someSrc;
+    this.img.src = this.imgSrc;
     this.propX = this.x-1.5;
     this.propY = this.y-12;
     this.bulletList = [];
-    console.log('myWolf init');
   };
 
   this.updateVel = function(someDir) {
