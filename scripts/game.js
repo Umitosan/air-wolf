@@ -6,27 +6,38 @@ function Game(updateDur) {
   this.lastUpdate = 0;
   this.updateDuration = updateDur; // milliseconds wait between update()
   this.paused = false;
-  // this.lastDirKey = undefined;
   this.lastDirKeyX = undefined;
   this.lastDirKeyY = undefined;
-  this.bg = new Image();
-  // this.boxy = undefined;
+  this.bgSplash = undefined;
+  this.bgAnim = undefined;
   this.pausedTxt = undefined;
   this.myWolf = undefined;
   this.mode = 'init'; // init, play
 
   this.init = function() {
-    this.bg.src = 'images/air_wolf_screen.jpg';
+    this.bgSplash = new Image();
+    this.bgSplash.src = 'images/air_wolf_screen.jpg';
     this.myWolf = new Wolf();
     this.myWolf.init('images/wolf1.png');
-    // this.boxy = new Box(20,20,myColors.red,20,1);
+    this.bgAnim = new SpriteSheet(  /* dx     */  0,
+                                    /* dy     */  0,
+                                    /* src    */  'images/waves.png',
+                                    /* cTotal */  7,
+                                    /* rTotal */  1,
+                                    /* fDur   */  500,
+                                    /* fW     */  32,
+                                    /* fH     */  32,
+                                    /* dW     */  50,
+                                    /* dH     */  50  );
+    this.bgAnim.init();
+    this.bgAnim.start();
     this.lastUpdate = performance.now();
   };
 
   this.pauseIt = function() {
     this.paused = true;
   };
-  
+
   this.unpauseIt = function() {
     this.paused = false;
     // this prevents updating many times after UNpausing
@@ -98,11 +109,11 @@ function Game(updateDur) {
 
   this.drawBG = function() { // display background over canvas
     CTX.imageSmoothingEnabled = false;  // turns off AntiAliasing
-    CTX.drawImage(this.bg,0,144,CANVAS.width*1.58*0.65,CANVAS.height*0.65); // 1.58 to keep aspect ratio
+    CTX.drawImage(this.bgSplash,0,144,CANVAS.width*1.58*0.65,CANVAS.height*0.65); // 1.58 to keep aspect ratio
   };
 
   this.draw = function() {  // draw everything!
-    // this.boxy.draw();
+    if ( this.bgAnim.on === true ) { this.bgAnim.draw(); }
     this.myWolf.draw();
   }; // end draw
 
@@ -117,7 +128,7 @@ function Game(updateDur) {
                 //   console.log('timesToUpdate = ', timesToUpdate);
                 // }
                 // general update area
-                // this.boxy.update();
+                if ( this.bgAnim.on === true ) { this.bgAnim.update(); }
                 this.myWolf.update();
               }
               this.lastUpdate = performance.now();
