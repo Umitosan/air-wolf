@@ -149,10 +149,10 @@ function keyDown(event) {
           if (myGame.paused === false) { myGame.updateLastDirKeyY('down'); }
           break;
         case 90: // Z key
-          if (State.gameStarted === true) { myGame.myWolf.shoot(); }
+          if (State.gameStarted === true) {  myGame.myWolf.shootOn = true; }
           break;
         case 191: // Slash key
-          if (State.gameStarted === true) { myGame.myWolf.shoot(); }
+          if (State.gameStarted === true) { myGame.myWolf.shootOn = true; }
           break;
         case 32: // spacebar
           if (State.gameStarted === true) {
@@ -219,6 +219,12 @@ function keyUp(event) {
         State.keysDown.s = false;
         document.getElementById("key-S").style.backgroundColor = "lightblue";
         if (myGame.paused === false) { myGame.tryClearLastDirKeyY('down'); }
+        break;
+      case 90: // Z key
+        if (State.gameStarted === true) {  myGame.myWolf.shootOn = false; }
+        break;
+      case 191: // Slash key
+        if (State.gameStarted === true) { myGame.myWolf.shootOn = false; }
         break;
       case 32: // spacebar
         // nothin

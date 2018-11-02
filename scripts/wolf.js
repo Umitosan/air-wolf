@@ -13,6 +13,7 @@ function Wolf(src) {
   this.propX = 0;
   this.propY = 0;
   this.propAngle = 0;
+  this.shootOn = false;
   this.bulletList = undefined;
   this.bulletSpacingTime = 200;
   this.bulletBarrel = 0;
@@ -62,7 +63,6 @@ function Wolf(src) {
       newX = (this.x-11);
     }
     if (len === 0) { // if no bullets simple just make one
-
       let newBullet = new Bullet(newX,this.y-15,0,10); // Bullet(nX,nY,nXvel,nYvel)
       newBullet.init();
       this.bulletList.push(newBullet);
@@ -121,6 +121,7 @@ function Wolf(src) {
   };
 
   this.update = function() {
+    // WOLF MOVEMENT
     if (myGame.lastDirKeyX !== undefined) {
       this.x += this.xVel;
       this.propX = this.x-1.5;
@@ -129,8 +130,11 @@ function Wolf(src) {
       this.y += this.yVel;
       this.propY = this.y-12;
     }
+    // PROPELLER movement
     this.propAngle += 25; // rotate the prop
     if (this.propAngle === 25000) { this.propAngle = 0; } // reset when it gets large just cuz
+    // BULLETs
+    if (this.shootOn === true) { this.shoot(); }
     if (this.bulletList.length > 0) {
       for (let i = 0; i < this.bulletList.length; i++) {
         if (this.bulletList[i].y < 0) {
