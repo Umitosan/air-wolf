@@ -363,7 +363,7 @@ $(document).ready(function() {
     console.log("pause button clicked");
     if (myGame.paused === false) {
       myGame.pauseIt();
-      $('#pause-btn')[0].innerText = 'UN-PAUSE';
+      $('#pause-btn')[0].innerText = 'RESUME';
     } else if (myGame.paused === true) {
       myGame.unpauseIt();
       $('#pause-btn')[0].innerText = 'PAUSE';

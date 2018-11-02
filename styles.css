@@ -29,7 +29,7 @@ body {
 
 .title-container {
   text-align: center;
-  margin: 40px auto 20px auto;
+  margin: 30px auto 20px auto;
 }
 #title {
   font-size: 40px;
@@ -39,7 +39,7 @@ body {
 
 .keys-container {
   height: auto;
-  width: 340px;
+  width: 330px;
   margin: 0px auto 20px auto;
   /* outline-color: darkblue;
   outline-style: solid;
@@ -51,7 +51,7 @@ body {
   width: auto;
   margin: 0px auto 0px auto;
 }
-.keys-group {
+.keys-group-dir {
   margin: 0px 1px 0px 1px;
   display: grid;
   grid-template-columns: 50px 50px 50px;
@@ -79,7 +79,7 @@ body {
 
 
 .buttons-container {
-  width: 310px;
+  width: 248px;
   height: auto;
   margin: 0px auto;
   /* outline-color: green;
@@ -89,58 +89,63 @@ body {
 .buttons-container button {
   font-weight: 600;
   color: black;
-  width: 100px;
-  height: 54px;
-  background-color: lightgreen;
+  width: 80px;
+  height: 44px;
   border-style: solid;
   border-radius: 5px;
   border-width: 2px;
+}
+#start-btn {
+  background-color: lightgreen;
   border-color: green;
 }
-.buttons-container button:hover {
+#pause-btn {
+  background-color: rgb(150,190,240);
+  border-color: blue;
+}
+#reset-btn {
+  background-color: lightyellow;
+  border-color: gold;
+}
+#start-btn:hover, #pause-btn:hover, #reset-btn:hover {
   background-color: pink;
   border-color: pink;
 }
-#start-btn {}
-#pause-btn {}
-#reset-btn {}
+
 
 
 .status-container {
   display: grid;
-  margin: 12px auto 12px auto;
-  width: 600px;
-  height: 100px;
-  grid-template-columns: 200px 200px 200px;
-  grid-template-rows: 100px;
-  /* outline-color: green;
+  font-size: 14px;
+  font-weight: bolder;
+  margin: 4px auto 4px auto;
+  width: 360px;
+  height: 50px;
+  grid-template-columns: 120px 120px 120px;
+  grid-template-rows: 50px;
+  outline-color: green;
   outline-style: solid;
-  outline-width: 1px; */
+  outline-width: 1px;
 }
 .mode-container {
-  margin: auto auto auto auto;
+  margin: 0px auto 0px auto;
   text-align: center;
   font-family: 'Roboto', sans-serif;
-  font-size: 20px;
   /* outline-color: yellow;
   outline-style: solid;
   outline-width: 1px; */
 }
 .lastkey-container {
-  margin: auto auto auto auto;
-  font-size: 20px;
+  margin: 0px auto 0px auto;
   text-align: center;
   font-family: 'Roboto', sans-serif;
   /* outline-color: yellow;
   outline-style: solid;
   outline-width: 1px; */
 }
-#lastkey-label {
-
-}
+#lastkey-label {}
 .coords-container {
-  margin: auto auto auto auto;
-  font-size: 20px;
+  margin: 0px auto 0px auto;
   font-family: 'Roboto', sans-serif;
   /* outline-color: yellow;
   outline-style: solid;
@@ -149,7 +154,6 @@ body {
 #coords {
   margin: auto auto auto auto;
   text-align: center;
-  font-size: 20px;
 }
 
 
