@@ -125,12 +125,20 @@ function Wolf(src) {
   this.update = function() {
     // WOLF MOVEMENT
     if (myGame.lastDirKeyX !== undefined) {
-      this.x += this.xVel;
-      this.propX = this.x-1.5;
+      if ( ((this.x + this.xVel) < 0) || ((this.x + this.xVel) > CANVAS.width) ) {
+        // out of bounds
+      } else {
+        this.x += this.xVel;
+        this.propX = this.x-1.5;
+      }
     }
     if (myGame.lastDirKeyY !== undefined) {
-      this.y += this.yVel;
-      this.propY = this.y-12;
+      if ( ((this.y + this.yVel) < 0) || ((this.y + this.yVel) > CANVAS.height) ) {
+        // out of bounds
+      } else {
+        this.y += this.yVel;
+        this.propY = this.y-12;
+      }
     }
     // PROPELLER movement
     this.propAngle += 25; // rotate the prop

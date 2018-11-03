@@ -123,9 +123,9 @@ body {
   height: 50px;
   grid-template-columns: 120px 120px 120px;
   grid-template-rows: 50px;
-  outline-color: green;
+  /* outline-color: green;
   outline-style: solid;
-  outline-width: 1px;
+  outline-width: 1px; */
 }
 .mode-container {
   margin: 0px auto 0px auto;

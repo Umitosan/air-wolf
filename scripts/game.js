@@ -34,9 +34,10 @@ function Game(updateDur) {
     this.bgAnim.start();
     this.mobs = [];
     for (let i = 0; i < 10; i++) {
+      let randDir = (getRandomIntInclusive(1,2) === 1 ? -1 : 1 );
       let newMob = new Mob(/* x    */ getRandomIntInclusive(20,CANVAS.width-20),
                               /* y    */ getRandomIntInclusive(20,100),
-                              /* xVel */ getRandomIntInclusive(2,6),
+                              /* xVel */ getRandomIntInclusive(2,6)*randDir,
                               /* yVel */ getRandomIntInclusive(1,2) / 4
                           );
       newMob.init();
