@@ -12,6 +12,7 @@ function Game(updateDur) {
   this.bgAnim = undefined;
   this.pausedTxt = undefined;
   this.myWolf = undefined;
+  this.mobs = undefined;
   this.mode = 'init'; // init, play
 
   this.init = function() {
@@ -31,6 +32,16 @@ function Game(updateDur) {
                                     /* dH     */  50  );
     this.bgAnim.init();
     this.bgAnim.start();
+    this.mobs = [];
+    for (let i = 0; i < 10; i++) {
+      let newMob = new Mob(/* x    */ getRandomIntInclusive(20,CANVAS.width-20),
+                              /* y    */ getRandomIntInclusive(20,100),
+                              /* xVel */ getRandomIntInclusive(2,6),
+                              /* yVel */ getRandomIntInclusive(1,2) / 4
+                          );
+      newMob.init();
+      this.mobs.push(newMob);
+    }
     this.lastUpdate = performance.now();
   };
 
@@ -115,6 +126,9 @@ function Game(updateDur) {
   this.draw = function() {  // draw everything!
     if ( this.bgAnim.on === true ) { this.bgAnim.draw(); }
     this.myWolf.draw();
+    for (var i = 0; i < this.mobs.length; i++) {
+      this.mobs[i].draw();
+    }
   }; // end draw
 
   this.update = function() {
@@ -127,9 +141,17 @@ function Game(updateDur) {
                 // if (timesToUpdate > 2) {
                 //   console.log('timesToUpdate = ', timesToUpdate);
                 // }
-                // general update area
+                // MAIN UPDATE AREA
                 if ( this.bgAnim.on === true ) { this.bgAnim.update(); }
                 this.myWolf.update();
+                for (let i = 0; i < this.mobs.length; i++) { // bullet clean up
+                  if (this.mobs[i].destroyMe === true) {
+                    this.mobs.splice(i,1);
+                    console.log('mob cleanup');
+                  } else {
+                    this.mobs[i].update();
+                  }
+                } // for
               }
               this.lastUpdate = performance.now();
             } // end if

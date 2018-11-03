@@ -108,7 +108,9 @@ function Wolf(src) {
     CTX.save();
     CTX.translate(this.propX,this.propY);
     CTX.beginPath();
+    CTX.strokeStyle = "black";
     CTX.fillStyle = "black";
+    CTX.lineWidth = 0;
     CTX.rect(0,0,4,4);
     CTX.fill();
     CTX.restore();
@@ -135,14 +137,13 @@ function Wolf(src) {
     if (this.propAngle === 25000) { this.propAngle = 0; } // reset when it gets large just cuz
     // BULLETs
     if (this.shootOn === true) { this.shoot(); }
-    if (this.bulletList.length > 0) {
-      for (let i = 0; i < this.bulletList.length; i++) {
-        if (this.bulletList[i].y < 0) {
-          this.bulletList.splice(i,1);
-        } else {
-          this.bulletList[i].update();
-        }
-      } // for
-    } // if
+    for (let i = 0; i < this.bulletList.length; i++) { // bullet clean up
+      let b = this.bulletList[i];
+      if (b.destroyMe === true) {
+        this.bulletList.splice(i,1);
+      } else {
+        b.update();
+      }
+    } // for
   };
 }
